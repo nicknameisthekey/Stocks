@@ -6,18 +6,25 @@
         xmlns:local="clr-namespace:Stocks"
         mc:Ignorable="d" Height="450" Width="800">
     <Window.Resources>
+        <local:PercentConverter x:Key="PercentConveter" />
+        <local:ValueToColor x:Key="valueToColor" />
         <DataTemplate  x:Key="lvTemplate">
-            <StackPanel>
-                <StackPanel Orientation="Horizontal">
-                    <TextBlock Text="{Binding Ticker}" Margin="3"></TextBlock>
-                    <TextBlock Text="{Binding CurrentPrice}" Margin="3"></TextBlock>
-                    <TextBlock Text="{Binding PriceChangePrcnt}" Margin="3"></TextBlock>
-                </StackPanel>
-            </StackPanel>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="35"/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <TextBlock Grid.Column="0" Text="{Binding Ticker}" Margin="3"></TextBlock>
+                <TextBlock Grid.Column="1" Text="{Binding CurrentPrice}" Margin="3"></TextBlock>
+                <TextBlock Grid.Column="2" Text="{Binding PriceChangePrcnt, Converter={StaticResource PercentConveter}}"  
+                               Foreground="{Binding PriceChange, Converter={StaticResource valueToColor}}"
+                               Margin="3">
+                </TextBlock>
+            </Grid>
         </DataTemplate>
     </Window.Resources>
     <Grid>
-
         <ListView ItemsSource="{Binding Prices}" ItemTemplate="{StaticResource ResourceKey=lvTemplate}">
         </ListView>
     </Grid>

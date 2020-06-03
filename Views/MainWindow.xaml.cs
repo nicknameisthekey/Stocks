@@ -10,10 +10,8 @@ namespace Stocks
         {
             InitializeComponent();
             List<Price> prices = new List<Price>();
-            prices.Add(DataLoader.LoadData("SBER"));
-            prices.Add(DataLoader.LoadData("SBERP"));
-            prices.Add(DataLoader.LoadData("DSKY"));
-            prices.Add(DataLoader.LoadData("ALRS"));
+            foreach (string ticker in Settings.Tickers)
+                prices.Add(DataLoader.LoadData(ticker));
             DataContext = new MainVM(prices);
         }
     }

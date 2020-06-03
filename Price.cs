@@ -8,8 +8,7 @@
         public float HighPrice { get; private set; }
         public float CurrentPrice { get; private set; }
         public float PriceChange => CurrentPrice - OpenPrice;
-        public string PriceChangePrcnt =>
-            ((PriceChange / OpenPrice) * 100).ToString("0.0") + "%";
+        public float PriceChangePrcnt => (PriceChange/OpenPrice) * 100;
         public Price(string ticker, string openPrice, string lowPrice,
             string highPrice, string currentPrice)
         {

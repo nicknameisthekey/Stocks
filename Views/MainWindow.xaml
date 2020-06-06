@@ -3,29 +3,83 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:Stocks"
+        xmlns:local="clr-namespace:Stocks" xmlns:local1="clr-namespace:Stocks.ViewModels"
         mc:Ignorable="d" Height="450" Width="800">
     <Window.Resources>
         <local:PercentConverter x:Key="PercentConveter" />
         <local:ValueToColor x:Key="valueToColor" />
-        <DataTemplate  x:Key="lvTemplate">
+        <local:BoolToVisibility x:Key="boolToVisibility" />
+        <local1:MainVM x:Key="dc"/>
+        <DataTemplate  DataType="{x:Type local:Price}">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="35"/>
                     <ColumnDefinition/>
                     <ColumnDefinition/>
+                    <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
-                <TextBlock Grid.Column="0" Text="{Binding Ticker}" Margin="3"></TextBlock>
-                <TextBlock Grid.Column="1" Text="{Binding CurrentPrice}" Margin="3"></TextBlock>
-                <TextBlock Grid.Column="2" Text="{Binding PriceChangePrcnt, Converter={StaticResource PercentConveter}}"  
+                <TextBlock Grid.Column="0" Text="{Binding Path=Ticker}" Margin="3"></TextBlock>
+                <TextBlock Grid.Column="1" Text="{Binding Path=CurrentPrice}" Margin="3"></TextBlock>
+                <TextBlock Grid.Column="2" Text="{Binding Path=PriceChangePrcnt, Converter={StaticResource PercentConveter}}"  
                                Foreground="{Binding PriceChange, Converter={StaticResource valueToColor}}"
                                Margin="3">
                 </TextBlock>
+                <!--  <Button Grid.Column="3"
+                    Visibility="{Binding Path=DataContext.ChangeButtonsEnabled,
+                    RelativeSource={RelativeSource AncestorType=Window},
+                    Converter={StaticResource boolToVisibility}}"
+                        Click="removeTicker_Click">
+                    X</Button> -->
             </Grid>
+        </DataTemplate>
+
+        <DataTemplate DataType="{x:Type local:TempPair}">
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="{Binding N}"></TextBlock>
+                <TextBlock Text="{Binding T}"></TextBlock>
+            </StackPanel>
         </DataTemplate>
     </Window.Resources>
     <Grid>
-        <ListView ItemsSource="{Binding Prices}" ItemTemplate="{StaticResource ResourceKey=lvTemplate}">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+        </Grid.RowDefinitions>
+        <TextBox Name="searchTB"></TextBox>
+        <FrameworkElement x:Name="ProxyElement" Visibility="Collapsed"/>
+        <ListView Grid.Column="0" Grid.Row="1">
+            <ListBox.ItemsSource>
+                <CompositeCollection>
+                    <!--тут wpf теряет контекст данных, гадо указать заново-->
+                    <CollectionContainer Collection="{Binding Prices, Source={StaticResource dc}}"> 
+                    </CollectionContainer>
+                    <CollectionContainer Collection="{Binding ListedTickers, Source={StaticResource dc}}">
+                    </CollectionContainer>
+                </CompositeCollection>
+            </ListBox.ItemsSource>
         </ListView>
+        
+        <StackPanel Grid.Column="0" Grid.Row="2" Orientation="Horizontal">
+            <Button 
+                Height="20" Width="60"
+                HorizontalAlignment="Right" VerticalAlignment="Top" Margin="10"
+                Click="changeTickerList_Click" Name="changeTickerListBtn">
+                Изменить</Button>
+            <TextBox Height="20" Width="60"
+                VerticalAlignment="Top" Margin="10"
+                Visibility="{Binding ChangeButtonsEnabled, Converter={StaticResource boolToVisibility}}"
+                Name="NewTickerTB"></TextBox>
+            <Button 
+                Height="20" Width="60"
+                HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10"
+                Visibility="{Binding ChangeButtonsEnabled, Converter={StaticResource boolToVisibility}}" 
+                Name="addTicker" Click="addTicker_Click">
+                Добавить</Button>
+        </StackPanel>
     </Grid>
 </Window>

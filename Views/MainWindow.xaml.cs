@@ -1,4 +1,5 @@
 ﻿using Stocks.ViewModels;
+using Stocks.Views;
 using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
@@ -14,25 +15,16 @@ namespace Stocks
             vm = new MainVM();
             DataContext = vm;
         }
-
-        private void changeTickerList_Click(object sender, RoutedEventArgs e)
-        {
-            vm.EditTickerListBtn_Click();
-            if (vm.ChangeButtonsEnabled)
-                changeTickerListBtn.Content = "Сохранить";
-            else
-                changeTickerListBtn.Content = "Изменить";
-        }
-
-        private void addTicker_Click(object sender, RoutedEventArgs e)
-        {
-            vm.AddTicker(NewTickerTB.Text);
-        }
-
         private void removeTicker_Click(object sender, RoutedEventArgs e)
         {
-            Price p = (Price)((Button)sender).DataContext;
+            Company p = (Company)((Button)sender).DataContext;
             vm.RemoveTicker(p.Ticker);
+        }
+        private void addNewTicker_Click(object sender, RoutedEventArgs e)
+        {
+            SearchTicker searchTicker = new SearchTicker();
+            searchTicker.DataContext = new SearchTickerVM();
+            searchTicker.Show();
         }
     }
 }

@@ -1,39 +1,46 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 
 namespace Stocks.ViewModels
 {
     public class MainVM : BaseVM
     {
-        List<Price> prices;
-        bool changeButtonsEnabled;
-        List<TempPair> listedTickers;
-
-        public bool ChangeButtonsEnabled
+        List<Company> companiesToShow;
+        string searchText;
+        public string SearchText
         {
-            get => changeButtonsEnabled;
-            private set { changeButtonsEnabled = value; onPropertyChange(); }
+            get => searchText;
+            set 
+            { 
+                searchText = value;
+                updateList();
+                onPropertyChange(); //убрать вызов при изменении с формы
+            }
         }
-        public List<Price> Prices
+        public List<Company> CompaniesToShow
         {
-            get => prices;
-            set { prices = value; onPropertyChange(); }
-        }
-        public List<TempPair> ListedTickers
-        {
-            get => listedTickers;
-            set { listedTickers = value; onPropertyChange(); }
+            get => companiesToShow;
+            set { companiesToShow = value; onPropertyChange(); }
         }
         public MainVM()
         {
+            CompaniesToShow = DataLoader.Companies;
             DataLoader.PricesUpdated += updatePrices;
-            DataLoader.TickersLoaded += () => ListedTickers = DataLoader.TickersListed;
         }
-        public void EditTickerListBtn_Click() =>
-            ChangeButtonsEnabled = !ChangeButtonsEnabled;
         public void AddTicker(string ticker) =>
             Settings.AddTicker(ticker.Trim().ToUpper());
         public void RemoveTicker(string ticker)
         => Settings.RemoveTicker(ticker);
-        void updatePrices(List<Price> prices) => Prices = prices;
+        public void updateList()
+        {
+            if (string.IsNullOrEmpty(SearchText)) CompaniesToShow = DataLoader.Companies;
+            else
+            {
+                CompaniesToShow = DataLoader.Companies
+                    .Where(c => c.Ticker.Contains(SearchText.ToUpper())).ToList();
+            }
+        }
+        void updatePrices() { updateList(); }
+
     }
 }

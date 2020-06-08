@@ -12,14 +12,16 @@ namespace Stocks
 {
     static class DataLoader
     {
-        public static event Action<List<Price>> PricesUpdated;
+        public static event Action PricesUpdated;
         public static event Action TickersLoaded;
-        public static readonly List<TempPair> TickersListed
-            = new List<TempPair>();
+        public static readonly List<TickerNamePair> TickersListed
+            = new List<TickerNamePair>();
+        public static List<Company> Companies { get; private set; }
+
         static Timer timer;
         static DataLoader()
         {
-            Task.Run(() => LoadListedTickers());
+            LoadListedTickers();
             startTimer();
         }
         public static void LoadListedTickers()
@@ -30,10 +32,10 @@ namespace Stocks
             string[] asnwer = sr.ReadToEnd().Split(Environment.NewLine.ToCharArray()).Skip(3).ToArray();
             IEnumerable<string> answerFiltered = asnwer.Where(a => a.Contains("TQBR") && a.Contains("Акции и ДР"));
             foreach (string a in answerFiltered)
-                TickersListed.Add(new TempPair(a.Split(';')[0], a.Split(';')[9]));
+                TickersListed.Add(new TickerNamePair(a.Split(';')[0], a.Split(';')[9]));
             TickersLoaded?.Invoke();
         }
-        public static Price LoadPrice(string ticker)
+        public static Company LoadPrice(string ticker)
         {
             ticker = ticker.Trim().ToUpper();
             string s = "https://iss.moex.com/iss/engines/stock/markets/shares/boards/TQBR/securities.csv?securities=" +
@@ -51,8 +53,16 @@ namespace Stocks
             string low = data[Array.IndexOf(headers, "LOW")];
             string high = data[Array.IndexOf(headers, "HIGH")];
             string last = data[Array.IndexOf(headers, "LAST")];
-            return new Price(ticker, open, low, high, last);
+            return new Company(ticker, open, low, high, last);
         }
+        static void loadPrices()
+        {
+            Companies = new List<Company>();
+            foreach (string ticker in Settings.Tickers)
+                Companies.Add(LoadPrice(ticker));
+            PricesUpdated?.Invoke();
+        }
+        #region timer
         static void startTimer()
         {
             timer = new Timer(1500);
@@ -68,16 +78,9 @@ namespace Stocks
         static void onTimer(object s, ElapsedEventArgs e)
         {
             stopTimer();
-            List<Price> prices = loadPrices();
-            PricesUpdated?.Invoke(prices);
+            loadPrices();
             startTimer();
         }
-        static List<Price> loadPrices()
-        {
-            List<Price> prices = new List<Price>();
-            foreach (string ticker in Settings.Tickers)
-                prices.Add(LoadPrice(ticker));
-            return prices;
-        }
+        #endregion
     }
 }

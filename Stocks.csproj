@@ -94,8 +94,12 @@
     </ApplicationDefinition>
     <Compile Include="Conventers\BoolToVisibility.cs" />
     <Compile Include="Conventers\ValueToColor.cs" />
-    <Compile Include="Models\TempPair.cs" />
+    <Compile Include="Models\TickerNamePair.cs" />
     <Compile Include="Utils\Settings.cs" />
+    <Compile Include="ViewModels\SearchTickerVM.cs" />
+    <Compile Include="Views\SearchTicker.xaml.cs">
+      <DependentUpon>SearchTicker.xaml</DependentUpon>
+    </Compile>
     <Page Include="Views\MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -112,9 +116,13 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Views\SearchTicker.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Models\Price.cs" />
+    <Compile Include="Models\Company.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>

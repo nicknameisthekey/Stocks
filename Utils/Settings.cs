@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.IO;
+using System.Net.Http;
 
 namespace Stocks
 {
@@ -7,6 +8,8 @@ namespace Stocks
     {
         public static List<string> GetSavedWatchlist()
         {
+            if (!File.Exists("Tickers.txt"))
+                File.Create("Tickers.txt");
             string allTickers = File.ReadAllText("Tickers.txt");
             string[] tickers = allTickers.Split(',');
             return new List<string>(tickers);

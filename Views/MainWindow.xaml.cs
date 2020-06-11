@@ -12,8 +12,8 @@ namespace Stocks
         MainVM vm;
         public MainWindow()
         {
-            InitializeComponent();
             DataHolder.Initialize();
+            InitializeComponent();
             vm = new MainVM();
             DataContext = vm;
         }

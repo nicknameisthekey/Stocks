@@ -1,17 +1,15 @@
-﻿using Stocks.Views;
+﻿using Stocks.Core;
+using Stocks.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Stocks.ViewModels
 {
     public class SearchTickerVM : BaseVM
     {
-        private List<TickerNamePair> notAddedTickers;
-        private string searchText ="";
-
+        List<TickerNamePair> notAddedTickers;
+        string searchText = "";
         public List<TickerNamePair> NotAddedTickers
         {
             get => notAddedTickers;
@@ -31,13 +29,17 @@ namespace Stocks.ViewModels
         {
             updateList();
         }
-
+        public void AddTickerToWatchList(string ticker)
+        {
+            DataHolder.AddTickerToWatch(ticker);
+            updateList();
+        }
         private void updateList()
         {
             IEnumerable<string> tickersAdded
-                            = DataLoader.Companies.Select(c => c.Ticker);
-            NotAddedTickers = DataLoader.TickersListed
-            .Where(t => !tickersAdded.Contains(t.Ticker) 
+                            = DataHolder.WatchlistPrices.Select(c => c.Ticker);
+            NotAddedTickers = DataHolder.ListedTickers
+            .Where(t => !tickersAdded.Contains(t.Ticker)
             && t.Ticker.Contains(SearchText.ToUpper())).ToList();
         }
     }

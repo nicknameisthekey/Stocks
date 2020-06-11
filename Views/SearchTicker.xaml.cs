@@ -1,27 +1,24 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Stocks.Models;
+using Stocks.ViewModels;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace Stocks.Views
 {
-    /// <summary>
-    /// Interaction logic for SearchTicker.xaml
-    /// </summary>
     public partial class SearchTicker : Window
     {
+        SearchTickerVM vm;
         public SearchTicker()
         {
             InitializeComponent();
+            vm = new SearchTickerVM();
+            DataContext = vm;
+        }
+
+        void addTicker_click(object sender, RoutedEventArgs e)
+        {
+            TickerNamePair selectedPair = ((Button)sender).DataContext as TickerNamePair;
+            vm.AddTickerToWatchList(selectedPair.Ticker);
         }
     }
 }

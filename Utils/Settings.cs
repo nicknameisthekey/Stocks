@@ -1,30 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
-using System.Windows;
 
 namespace Stocks
 {
     public static class Settings
     {
-        public static readonly List<string> Tickers;
-        static Settings()
+        public static List<string> GetSavedWatchlist()
         {
             string allTickers = File.ReadAllText("Tickers.txt");
             string[] tickers = allTickers.Split(',');
-            Tickers = new List<string>(tickers);
+            return new List<string>(tickers);
         }
-        public static void AddTicker(string ticker)
+        public static void SaveTickers(List<string> tickers)
         {
-            if (Tickers.Contains(ticker)) return; //todo
-            Tickers.Add(ticker);
-
-            File.AppendAllText("Tickers.txt", "," + ticker);
-        }
-        public static void RemoveTicker(string ticker)
-        {
-            Tickers.Remove(ticker);
-            File.WriteAllText("Tickers.txt", string.Join(",", Tickers));
+            File.WriteAllText("Tickers.txt", string.Join(",", tickers));
         }
     }
 }

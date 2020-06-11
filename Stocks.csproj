@@ -94,6 +94,8 @@
     </ApplicationDefinition>
     <Compile Include="Conventers\BoolToVisibility.cs" />
     <Compile Include="Conventers\ValueToColor.cs" />
+    <Compile Include="Core\DataLoader.cs" />
+    <Compile Include="Core\DataHolder.cs" />
     <Compile Include="Models\TickerNamePair.cs" />
     <Compile Include="Utils\Settings.cs" />
     <Compile Include="ViewModels\SearchTickerVM.cs" />
@@ -108,7 +110,6 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Core\DataLoader.cs" />
     <Compile Include="Conventers\PercentConverter.cs" />
     <Compile Include="ViewModels\BaseVM.cs" />
     <Compile Include="ViewModels\MainVM.cs" />
@@ -122,7 +123,7 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Models\Company.cs" />
+    <Compile Include="Models\TickerPrices.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>

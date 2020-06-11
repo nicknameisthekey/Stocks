@@ -4,13 +4,15 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Stocks"
+        xmlns:models="clr-namespace:Stocks.Models"
         mc:Ignorable="d"
         Title="Поиск" Height="400" Width="360">
     <Window.Resources>
-        <DataTemplate DataType="{x:Type local:TickerNamePair}">
+        <DataTemplate DataType="{x:Type models:TickerNamePair}">
             <StackPanel Orientation="Horizontal">
                 <TextBlock Text="{Binding Ticker}"></TextBlock>
                 <TextBlock Text="{Binding Name}" Margin="5,0,0,0"></TextBlock>
+                <Button Click="addTicker_click">+</Button>
             </StackPanel>
         </DataTemplate>
     </Window.Resources>

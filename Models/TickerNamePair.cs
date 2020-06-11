@@ -1,4 +1,4 @@
-﻿namespace Stocks
+﻿namespace Stocks.Models
 {
     public class TickerNamePair
     {

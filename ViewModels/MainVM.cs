@@ -1,46 +1,46 @@
-﻿using System.Collections.Generic;
+﻿using Stocks.Core;
+using Stocks.Models;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace Stocks.ViewModels
 {
     public class MainVM : BaseVM
     {
-        List<Company> companiesToShow;
+        List<TickerPrices> watchListPrices;
         string searchText;
         public string SearchText
         {
             get => searchText;
-            set 
-            { 
+            set
+            {
                 searchText = value;
                 updateList();
                 onPropertyChange(); //убрать вызов при изменении с формы
             }
         }
-        public List<Company> CompaniesToShow
+        public List<TickerPrices> PricesToShow
         {
-            get => companiesToShow;
-            set { companiesToShow = value; onPropertyChange(); }
+            get => watchListPrices;
+            set { watchListPrices = value; onPropertyChange(); }
         }
         public MainVM()
         {
-            CompaniesToShow = DataLoader.Companies;
-            DataLoader.PricesUpdated += updatePrices;
+            PricesToShow = DataHolder.WatchlistPrices;
+            DataHolder.WatchListPricesUpdated += updateList;
         }
-        public void AddTicker(string ticker) =>
-            Settings.AddTicker(ticker.Trim().ToUpper());
-        public void RemoveTicker(string ticker)
-        => Settings.RemoveTicker(ticker);
         public void updateList()
         {
-            if (string.IsNullOrEmpty(SearchText)) CompaniesToShow = DataLoader.Companies;
+            if (string.IsNullOrEmpty(SearchText)) PricesToShow = DataHolder.WatchlistPrices;
             else
             {
-                CompaniesToShow = DataLoader.Companies
+                PricesToShow = DataHolder.WatchlistPrices
                     .Where(c => c.Ticker.Contains(SearchText.ToUpper())).ToList();
             }
         }
-        void updatePrices() { updateList(); }
-
+        public void RemoveTicker(string ticker)
+        {
+            DataHolder.RemoveTickerToWatch(ticker);
+        }
     }
 }

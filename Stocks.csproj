@@ -50,6 +50,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="HtmlAgilityPack, Version=1.11.24.0, Culture=neutral, PublicKeyToken=bd319b19eaf3b43a, processorArchitecture=MSIL">
+      <HintPath>packages\HtmlAgilityPack.1.11.24\lib\Net45\HtmlAgilityPack.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.Bcl.AsyncInterfaces, Version=1.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>packages\Microsoft.Bcl.AsyncInterfaces.1.1.0\lib\net461\Microsoft.Bcl.AsyncInterfaces.dll</HintPath>
     </Reference>
@@ -96,12 +99,21 @@
     <Compile Include="Conventers\ValueToColor.cs" />
     <Compile Include="Core\DataLoader.cs" />
     <Compile Include="Core\DataHolder.cs" />
+    <Compile Include="Models\InterfaxData.cs" />
     <Compile Include="Models\TickerNamePair.cs" />
     <Compile Include="Utils\Settings.cs" />
+    <Compile Include="ViewModels\InterfaxVM.cs" />
     <Compile Include="ViewModels\SearchTickerVM.cs" />
+    <Compile Include="Views\Interfax.xaml.cs">
+      <DependentUpon>Interfax.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\SearchTicker.xaml.cs">
       <DependentUpon>SearchTicker.xaml</DependentUpon>
     </Compile>
+    <Page Include="Views\Interfax.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -163,6 +175,9 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="InterfaxIds.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Tickers.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

@@ -3,13 +3,14 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:Stocks"
+        xmlns:local="clr-namespace:Stocks.Views"
+        xmlns:root="clr-namespace:Stocks"
         xmlns:models="clr-namespace:Stocks.Models"
         mc:Ignorable="d" Height="450" Width="800">
     <Window.Resources>
-        <local:PercentConverter x:Key="PercentConveter" />
-        <local:ValueToColor x:Key="valueToColor" />
-        <local:BoolToVisibility x:Key="boolToVisibility" />
+        <root:PercentConverter x:Key="PercentConveter" />
+        <root:ValueToColor x:Key="valueToColor" />
+        <root:BoolToVisibility x:Key="boolToVisibility" />
 
 
         <DataTemplate DataType="{x:Type models:TickerPrices}">
@@ -59,12 +60,15 @@
         <!--ЛИСТ ТИКЕРОВ-->
         <ListView  Grid.Column="0" Grid.Row="1"
                    Margin="5" Name="Watchlist"
-                   ItemsSource="{Binding PricesToShow}">
+                   ItemsSource="{Binding PricesToShow}"
+                   SelectedItem="{Binding SelectedItem, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
             <ListView.ContextMenu>
                 <ContextMenu>
                     <MenuItem Header="Delete me" Click="deleteTicker_click"></MenuItem>
                 </ContextMenu>
             </ListView.ContextMenu>
         </ListView>
+        <local:Interfax  Grid.Column="1" Grid.RowSpan="4"
+                         x:Name="InterfaxControl"></local:Interfax>
     </Grid>
 </Window>

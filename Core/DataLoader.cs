@@ -1,4 +1,5 @@
-﻿using Stocks.Models;
+﻿using HtmlAgilityPack;
+using Stocks.Models;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -42,6 +43,28 @@ namespace Stocks
             string high = data[Array.IndexOf(headers, "HIGH")];
             string last = data[Array.IndexOf(headers, "LAST")];
             return new TickerPrices(ticker, open, low, high, last);
+        }
+        public static List<InterfaxData> LoadInterfax(string id, int year)
+        {
+            string uri = "http://e-disclosure.ru/Event/Page?companyId="
+                + id + "&year=" + year;
+            Stream str = WebRequest.Create(new Uri(uri)).GetResponse().GetResponseStream();
+            string resp = new StreamReader(str).ReadToEnd();
+            HtmlDocument htmlDoc = new HtmlDocument();
+            htmlDoc.LoadHtml(resp);
+
+            int linksCount = htmlDoc.DocumentNode.SelectNodes("/table[1]/tr").Count;
+            List<InterfaxData> result = new List<InterfaxData>();
+            for (int i = 2; i <= linksCount; i++)
+            {
+                HtmlNode dateNode = htmlDoc.DocumentNode.SelectSingleNode($"/table[1]/tr[{i}]/td[1]");
+                string date = dateNode.InnerText;
+                HtmlNode x = htmlDoc.DocumentNode.SelectSingleNode($"/table[1]/tr[{i}]/td[3]/a");
+                string link = x.Attributes["href"].Value;
+                string text = x.InnerHtml;
+                result.Add(new InterfaxData(link, text, date));
+            }
+            return result;
         }
     }
 }

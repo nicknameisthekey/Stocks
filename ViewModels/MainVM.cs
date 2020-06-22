@@ -1,5 +1,6 @@
 ﻿using Stocks.Core;
 using Stocks.Models;
+using Stocks.Properties;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -40,21 +41,21 @@ namespace Stocks.ViewModels
         }
         public MainVM()
         {
-            PricesToShow = DataHolder.WatchlistPrices;
-            DataHolder.WatchListPricesUpdated += updateList;
+            PricesToShow = PriceUpdater.WatchlistPrices;
+            PriceUpdater.WatchListPricesUpdated += updateList;
         }
         public void updateList()
         {
-            if (string.IsNullOrEmpty(SearchText)) PricesToShow = DataHolder.WatchlistPrices;
+            if (string.IsNullOrEmpty(SearchText)) PricesToShow = PriceUpdater.WatchlistPrices;
             else
             {
-                PricesToShow = DataHolder.WatchlistPrices
+                PricesToShow = PriceUpdater.WatchlistPrices
                     .Where(c => c.Ticker.Contains(SearchText.ToUpper())).ToList();
             }
         }
         public void RemoveTicker(string ticker)
         {
-            DataHolder.RemoveTickerToWatch(ticker);
+            SettingsManager.RemoveTicker(ticker);
         }
     }
 }

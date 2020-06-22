@@ -97,19 +97,44 @@
     </ApplicationDefinition>
     <Compile Include="Conventers\BoolToVisibility.cs" />
     <Compile Include="Conventers\ValueToColor.cs" />
+    <Compile Include="Core\AlarmsChecker.cs" />
+    <Compile Include="Models\PriceAlarm.cs" />
     <Compile Include="Core\DataLoader.cs" />
-    <Compile Include="Core\DataHolder.cs" />
+    <Compile Include="Core\PriceUpdater.cs" />
     <Compile Include="Models\InterfaxData.cs" />
     <Compile Include="Models\TickerNamePair.cs" />
-    <Compile Include="Utils\Settings.cs" />
+    <Compile Include="Utils\UserSettings.cs" />
+    <Compile Include="Utils\SettingsManager.cs" />
+    <Compile Include="ViewModels\AlarmsVM.cs" />
     <Compile Include="ViewModels\InterfaxVM.cs" />
     <Compile Include="ViewModels\SearchTickerVM.cs" />
+    <Compile Include="Views\AddAlarm.xaml.cs">
+      <DependentUpon>AddAlarm.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Alarms.xaml.cs">
+      <DependentUpon>Alarms.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ChangeInterfaxId.xaml.cs">
+      <DependentUpon>ChangeInterfaxId.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Interfax.xaml.cs">
       <DependentUpon>Interfax.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\SearchTicker.xaml.cs">
       <DependentUpon>SearchTicker.xaml</DependentUpon>
     </Compile>
+    <Page Include="Views\AddAlarm.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Alarms.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ChangeInterfaxId.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\Interfax.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -158,6 +183,9 @@
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
+    <Content Include="Settings.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

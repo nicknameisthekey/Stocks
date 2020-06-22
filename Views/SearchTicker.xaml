@@ -23,8 +23,8 @@
         </DataTemplate>
     </Window.Resources>
     <StackPanel Orientation="Vertical">
-        <TextBox HorizontalAlignment="Center" Margin="5" 
-                 Height="30" MinWidth="200" MaxWidth="350" FontSize="18"
+        <TextBox HorizontalAlignment="Left" Margin="3" 
+                 MinWidth="200" Height="30" FontSize="18"
                  Text="{Binding SearchText, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
         <ListView MinWidth="200" MaxWidth="350" Margin="5" 
                   ItemsSource="{Binding NotAddedTickers}">

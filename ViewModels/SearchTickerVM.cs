@@ -31,14 +31,14 @@ namespace Stocks.ViewModels
         }
         public void AddTickerToWatchList(string ticker)
         {
-            DataHolder.AddTickerToWatch(ticker);
+            SettingsManager.AddTicker(ticker);
             updateList();
         }
         private void updateList()
         {
             IEnumerable<string> tickersAdded
-                            = DataHolder.WatchlistPrices.Select(c => c.Ticker);
-            NotAddedTickers = DataHolder.ListedTickers
+                            = PriceUpdater.WatchlistPrices.Select(c => c.Ticker);
+            NotAddedTickers = PriceUpdater.ListedTickers
             .Where(t => !tickersAdded.Contains(t.Ticker)
             && t.Ticker.Contains(SearchText.ToUpper())).ToList();
         }

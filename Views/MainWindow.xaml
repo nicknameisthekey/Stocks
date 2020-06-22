@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:Stocks.Views"
         xmlns:root="clr-namespace:Stocks"
         xmlns:models="clr-namespace:Stocks.Models"
-        mc:Ignorable="d" Height="450" Width="800">
+        mc:Ignorable="d" WindowState="Maximized">
     <Window.Resources>
         <root:PercentConverter x:Key="PercentConveter" />
         <root:ValueToColor x:Key="valueToColor" />
@@ -21,7 +21,6 @@
                     <ColumnDefinition/>
                     <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
-                
                 <TextBlock Grid.Column="0" Text="{Binding Path=Ticker}" Margin="3"></TextBlock>
                 <TextBlock Grid.Column="1" Text="{Binding Path=CurrentPrice}" Margin="3"></TextBlock>
                 <TextBlock Grid.Column="2" Text="{Binding Path=PriceChangePrcnt, Converter={StaticResource PercentConveter}}"  
@@ -31,11 +30,12 @@
             </Grid>
         </DataTemplate>
 
-
     </Window.Resources>
+
+
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition Width="170"></ColumnDefinition>
             <ColumnDefinition></ColumnDefinition>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
@@ -46,11 +46,11 @@
         </Grid.RowDefinitions>
 
         <!--ПОИСК И ДОБАВЛЕНИЕ ТИКЕРА-->
-        <StackPanel Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="0"
-                    Margin="5"
+        <StackPanel Grid.Column="0" Grid.Row="0"
+                    Margin="3"
                     Orientation="Horizontal">
-            <TextBox 
-            Height="30" MinWidth="200" MaxWidth="350" FontSize="18"
+            <TextBox Width="124"
+            Height="30" FontSize="18"
             Name="searchTB" Text="{Binding SearchText, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"></TextBox>
             <Button Click="addNewTicker_Click" Margin="10,0,0,0" 
                     HorizontalAlignment="Center" VerticalAlignment="Center"
@@ -59,16 +59,30 @@
 
         <!--ЛИСТ ТИКЕРОВ-->
         <ListView  Grid.Column="0" Grid.Row="1"
-                   Margin="5" Name="Watchlist"
+                   Name="Watchlist" Margin="3,3,3,10"
                    ItemsSource="{Binding PricesToShow}"
-                   SelectedItem="{Binding SelectedItem, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                   SelectedItem="{Binding SelectedItem, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Grid.RowSpan="3">
             <ListView.ContextMenu>
                 <ContextMenu>
-                    <MenuItem Header="Delete me" Click="deleteTicker_click"></MenuItem>
+                    <MenuItem Header="Удалить" Click="deleteTicker_click"></MenuItem>
+                    <MenuItem Header="Изменить ID интерфакса" Click="changeInterfaxId_Click"></MenuItem>
                 </ContextMenu>
             </ListView.ContextMenu>
         </ListView>
-        <local:Interfax  Grid.Column="1" Grid.RowSpan="4"
+        
+        <!--Контролы-->
+        <TabControl Grid.Column="1" Grid.RowSpan="4">
+            <TabItem Header="Сущ. факты">
+                <local:Interfax
+                         HorizontalAlignment="Left" Margin="3"
                          x:Name="InterfaxControl"></local:Interfax>
+            </TabItem>
+            <TabItem Header="Уведомления">
+                <local:Alarms
+                         HorizontalAlignment="Left" Margin="3"
+                         x:Name="AlarmControl"></local:Alarms>
+            </TabItem>
+
+        </TabControl>
     </Grid>
 </Window>

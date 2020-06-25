@@ -107,6 +107,7 @@
     <Compile Include="Utils\SettingsManager.cs" />
     <Compile Include="ViewModels\AlarmsVM.cs" />
     <Compile Include="ViewModels\InterfaxVM.cs" />
+    <Compile Include="ViewModels\ReportsVM.cs" />
     <Compile Include="ViewModels\SearchTickerVM.cs" />
     <Compile Include="Views\AddAlarm.xaml.cs">
       <DependentUpon>AddAlarm.xaml</DependentUpon>
@@ -119,6 +120,9 @@
     </Compile>
     <Compile Include="Views\Interfax.xaml.cs">
       <DependentUpon>Interfax.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Reports.xaml.cs">
+      <DependentUpon>Reports.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\SearchTicker.xaml.cs">
       <DependentUpon>SearchTicker.xaml</DependentUpon>
@@ -154,6 +158,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Views\Reports.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\SearchTicker.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

@@ -17,10 +17,12 @@ namespace Stocks
             PriceUpdater.Initialize();
             AlarmsChecker.Initialize();
             AlarmsChecker.FirePriceAlarm += showPriceAlarm;
+
             InitializeComponent();
             vm = new MainVM();
             alarmsVM = new AlarmsVM();
             interfaxVM = new InterfaxVM();
+            ReportsControl.DataContext = new ReportsVM();
             InterfaxControl.DataContext = interfaxVM;
             AlarmControl.DataContext = alarmsVM;
             DataContext = vm;

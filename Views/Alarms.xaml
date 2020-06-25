@@ -16,7 +16,6 @@
                     <ColumnDefinition/>
                     <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
-                <TextBlock Grid.Column="0" Text="{Binding Path=Ticker}" Margin="3"></TextBlock>
                 <TextBlock Grid.Column="1" Text="{Binding Path=TargetPrice}" Margin="3"></TextBlock>
                 <TextBlock Grid.Column="2" Text="{Binding Path=AlarmIfTargetHigher}" Margin="3">
                 </TextBlock>

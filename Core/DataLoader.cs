@@ -66,5 +66,32 @@ namespace Stocks
             }
             return result;
         }
+        public static List<InterfaxData> LoadReportList(string interfaxID, int type)
+        {
+            List<InterfaxData> result = new List<InterfaxData>();
+            string uri = "http://e-disclosure.ru/portal/files.aspx?id=" + interfaxID + "&type=" + type;
+            Stream str = WebRequest.Create(new Uri(uri)).GetResponse().GetResponseStream();
+            string resp = new StreamReader(str).ReadToEnd();
+            HtmlDocument htmlDoc = new HtmlDocument();
+            htmlDoc.LoadHtml(resp);
+            HtmlNodeCollection table = htmlDoc.DocumentNode.SelectNodes
+                ("html[1]/body[1]/div[2]/div[2]/div[1]/div[1]/div[5]/div[3]/table[1]/tr");
+            foreach (var tr in table.Skip(1))
+            {
+                HtmlNode linkNode = tr.SelectSingleNode("td[7]/a");
+                string link = linkNode.Attributes["data-fileinfo"].Value;
+                HtmlNode reportNameNode = tr.SelectSingleNode("td[3]");
+                string reportName = reportNameNode.InnerText;
+                HtmlNode postDateNode = tr.SelectSingleNode("td[5]");
+                string postdate = postDateNode.InnerText;
+                result.Add(new InterfaxData(link, reportName, postdate));
+            }
+            return result;
+        }
+        //static void unzip()
+        //{
+        //    ZipFile.ExtractToDirectory("temp.zip", "temp");
+        //    Process.Start(new ProcessStartInfo(files[0]));
+        //}
     }
 }

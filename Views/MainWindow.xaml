@@ -75,14 +75,23 @@
             <TabItem Header="Сущ. факты">
                 <local:Interfax
                          HorizontalAlignment="Left" Margin="3"
-                         x:Name="InterfaxControl"></local:Interfax>
+                         x:Name="InterfaxControl">
+                </local:Interfax>
             </TabItem>
+            
             <TabItem Header="Уведомления">
                 <local:Alarms
                          HorizontalAlignment="Left" Margin="3"
-                         x:Name="AlarmControl"></local:Alarms>
+                         x:Name="AlarmControl">
+                </local:Alarms>
             </TabItem>
-
+            
+                <TabItem Header="Очёты">
+                    <local:Reports x:Name="ReportsControl" 
+                                   HorizontalAlignment="Left" Margin="3">
+                    </local:Reports>
+                </TabItem>
+           
         </TabControl>
     </Grid>
 </Window>

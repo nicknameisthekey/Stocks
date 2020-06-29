@@ -1,5 +1,4 @@
 ﻿using Stocks.Models;
-using Stocks.Views;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -30,10 +29,10 @@ namespace Stocks.ViewModels
             selectedTicker = ticker;
             updateAlarmList();
         }
-        public void onAddNewAlarm()
+        public void AddNewAlarm(string price, bool higher)
         {
-            AddAlarm window = new AddAlarm(selectedTicker.Ticker);
-            window.Show();
+            PriceAlarm alarm = new PriceAlarm(selectedTicker.Ticker, float.Parse(price), higher);
+            SettingsManager.AddPriceAlarm(alarm);
         }
         public void onRemoveAlarm(PriceAlarm alarm)
         {

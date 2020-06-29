@@ -1,8 +1,10 @@
 ﻿using Stocks.Models;
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
+using System.Diagnostics;
+using System.IO;
+using System.IO.Compression;
+using System.Net;
 
 namespace Stocks.ViewModels
 {
@@ -29,8 +31,6 @@ namespace Stocks.ViewModels
             selectedType = type;
             updateList();
         }
-
-
         public ReportsVM()
         {
             MainVM.SelectedItemChanged += OnSelectedCompanychange;
@@ -46,10 +46,21 @@ namespace Stocks.ViewModels
             Dictionary<string, string> ids = SettingsManager.Settings.InterfaxIds;
             if (ids.ContainsKey(selectedTicker.Ticker))
             {
-                Reports = DataLoader.LoadReportList(ids[selectedTicker.Ticker], selectedType);
+                Reports = DataDownloader.LoadReportsList(ids[selectedTicker.Ticker], selectedType);
             }
             else
                 Reports = new List<InterfaxData>();
+        }
+        public void OpenReport(string uri)
+        {
+            WebClient client = new WebClient();
+            client.DownloadFileAsync(new Uri(uri.Replace("FileInfo", "FileLoad")), "temp.zip");
+            client.DownloadFileCompleted += (o, e) =>
+            {
+                ZipFile.ExtractToDirectory("temp.zip", "temp");
+                string[] files = Directory.GetFiles("temp");
+                Process.Start(new ProcessStartInfo(files[0]));
+            };
         }
     }
 }

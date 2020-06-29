@@ -10,8 +10,11 @@ using System.Text;
 
 namespace Stocks
 {
-    static class DataLoader
+    static class DataDownloader
     {
+        /// <summary>
+        /// Выгрузка всех эмитентов акций 
+        /// </summary>
         public static List<TickerNamePair> LoadListedTickers()
         {
             List<TickerNamePair> result = new List<TickerNamePair>();
@@ -24,6 +27,9 @@ namespace Stocks
                 result.Add(new TickerNamePair(a.Split(';')[0], a.Split(';')[9]));
             return result;
         }
+        /// <summary>
+        /// Загрузка текущих цен для указанного тикера
+        /// </summary>
         public static TickerPrices LoadPrice(string ticker)
         {
             ticker = ticker.Trim().ToUpper();
@@ -44,7 +50,10 @@ namespace Stocks
             string last = data[Array.IndexOf(headers, "LAST")];
             return new TickerPrices(ticker, open, low, high, last);
         }
-        public static List<InterfaxData> LoadInterfax(string id, int year)
+        /// <summary>
+        /// Загрузка существенных фактов с интерфакса
+        /// </summary>
+        public static List<InterfaxData> LoadCompanyEvents(string id, int year)
         {
             string uri = "http://e-disclosure.ru/Event/Page?companyId="
                 + id + "&year=" + year;
@@ -66,7 +75,10 @@ namespace Stocks
             }
             return result;
         }
-        public static List<InterfaxData> LoadReportList(string interfaxID, int type)
+        /// <summary>
+        /// Загрузка списка отчётов, доступных для загрузка
+        /// </summary>
+        public static List<InterfaxData> LoadReportsList(string interfaxID, int type)
         {
             List<InterfaxData> result = new List<InterfaxData>();
             string uri = "http://e-disclosure.ru/portal/files.aspx?id=" + interfaxID + "&type=" + type;
@@ -88,10 +100,5 @@ namespace Stocks
             }
             return result;
         }
-        //static void unzip()
-        //{
-        //    ZipFile.ExtractToDirectory("temp.zip", "temp");
-        //    Process.Start(new ProcessStartInfo(files[0]));
-        //}
     }
 }

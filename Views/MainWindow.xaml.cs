@@ -14,7 +14,7 @@ namespace Stocks
         public MainWindow()
         {
             SettingsManager.ReadSettings();
-            PriceUpdater.Initialize();
+            MOEXData.Initialize();
             AlarmsChecker.Initialize();
             AlarmsChecker.FirePriceAlarm += showPriceAlarm;
 

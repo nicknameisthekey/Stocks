@@ -6,12 +6,10 @@
         xmlns:local="clr-namespace:Stocks.Views"
         xmlns:root="clr-namespace:Stocks"
         xmlns:models="clr-namespace:Stocks.Models"
-        mc:Ignorable="d" WindowState="Maximized">
+        mc:Ignorable="d" WindowState="Maximized" d:DesignWidth="2040" d:DesignHeight="1170.925">
     <Window.Resources>
         <root:PercentConverter x:Key="PercentConveter" />
         <root:ValueToColor x:Key="valueToColor" />
-        <root:BoolToVisibility x:Key="boolToVisibility" />
-
 
         <DataTemplate DataType="{x:Type models:TickerPrices}">
             <Grid>
@@ -31,7 +29,6 @@
         </DataTemplate>
 
     </Window.Resources>
-
 
     <Grid>
         <Grid.ColumnDefinitions>
@@ -54,7 +51,10 @@
             Name="searchTB" Text="{Binding SearchText, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"></TextBox>
             <Button Click="addNewTicker_Click" Margin="10,0,0,0" 
                     HorizontalAlignment="Center" VerticalAlignment="Center"
-                    Width="30" Height="30">+</Button>
+                    Width="30" Height="30"
+                    Background="White" BorderThickness="0">
+                <Image Source="../Icons/plus.png"></Image>
+            </Button>
         </StackPanel>
 
         <!--ЛИСТ ТИКЕРОВ-->
@@ -69,29 +69,33 @@
                 </ContextMenu>
             </ListView.ContextMenu>
         </ListView>
-        
-        <!--Контролы-->
-        <TabControl Grid.Column="1" Grid.RowSpan="4">
-            <TabItem Header="Сущ. факты">
-                <local:Interfax
+
+        <!--ОСНОВНАЯ ЧАСТЬ-->
+        <ScrollViewer Grid.Column="1" Grid.Row="0" Grid.RowSpan="4" Margin="0,3,0,0">
+            <StackPanel>
+                <Expander Header="График">
+                </Expander>
+
+                <Expander Header="Существенные факты и отчёты">
+                    <StackPanel Orientation="Horizontal">
+
+                        <local:Interfax
                          HorizontalAlignment="Left" Margin="3"
-                         x:Name="InterfaxControl">
-                </local:Interfax>
-            </TabItem>
-            
-            <TabItem Header="Уведомления">
-                <local:Alarms
+                         x:Name="InterfaxControl" Grid.Column="0" Grid.Row="0"/>
+                        <local:Reports  Grid.Column="1" Grid.Row="0"
+                x:Name="ReportsControl" HorizontalAlignment="Left" Margin="3,3,0,3">
+                        </local:Reports>
+                    </StackPanel>
+                </Expander>
+
+                <Expander Header="Уведомления">
+                    <local:Alarms Grid.Column="0" Grid.Row="1"
                          HorizontalAlignment="Left" Margin="3"
                          x:Name="AlarmControl">
-                </local:Alarms>
-            </TabItem>
-            
-                <TabItem Header="Очёты">
-                    <local:Reports x:Name="ReportsControl" 
-                                   HorizontalAlignment="Left" Margin="3">
-                    </local:Reports>
-                </TabItem>
-           
-        </TabControl>
+                    </local:Alarms>
+                </Expander>
+            </StackPanel>
+        </ScrollViewer>
+
     </Grid>
 </Window>

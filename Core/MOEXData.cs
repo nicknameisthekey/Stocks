@@ -5,16 +5,34 @@ using System.Timers;
 
 namespace Stocks.Core
 {
-    public static class PriceUpdater
+    /// <summary>
+    /// Хранит и обновляет биржевые данные
+    /// </summary>
+    public static class MOEXData
     {
-        public static Action WatchListPricesUpdated;
-        public static List<TickerPrices> WatchlistPrices { get; private set; }
-        public static List<TickerNamePair> ListedTickers { get; private set; }
+        /// <summary>
+        /// Таймер-триггер обновления цен
+        /// </summary>
         static Timer timer;
+        /// <summary>
+        /// Вызывается после успешной загрузки данных с биржи
+        /// </summary>
+        public static Action WatchListPricesUpdated;
+        /// <summary>
+        /// Последние полученные данные о ценах с биржи
+        /// </summary>
+        public static List<TickerPrices> WatchlistPrices { get; private set; }
+        /// <summary>
+        /// Список всех доступных тикеров
+        /// </summary>
+        public static List<TickerNamePair> ListedTickers { get; private set; }
+        /// <summary>
+        /// Запуск работы
+        /// </summary>
         public static void Initialize()
         {
             SettingsManager.SettingsChanged += updateWatchListPrices;
-            ListedTickers = DataLoader.LoadListedTickers();
+            ListedTickers = DataDownloader.LoadListedTickers();
             updateWatchListPrices();
             startTimer();
         }
@@ -23,7 +41,7 @@ namespace Stocks.Core
             WatchlistPrices = new List<TickerPrices>();
             foreach (string ticker in SettingsManager.Settings.WatchListTickers)
             {
-                WatchlistPrices.Add(DataLoader.LoadPrice(ticker));
+                WatchlistPrices.Add(DataDownloader.LoadPrice(ticker));
             }
             WatchListPricesUpdated?.Invoke();
         }

@@ -28,7 +28,7 @@ namespace Stocks.ViewModels
             var ids = SettingsManager.Settings.InterfaxIds;
             if (ids.ContainsKey(ticker.Ticker))
             {
-                selectedTickerData = DataLoader.LoadInterfax(ids[ticker.Ticker], 2020);
+                selectedTickerData = DataDownloader.LoadCompanyEvents(ids[ticker.Ticker], 2020);
             }
             else
                 selectedTickerData = new List<InterfaxData>();

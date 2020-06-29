@@ -5,6 +5,9 @@ using System.Windows.Media;
 
 namespace Stocks
 {
+    /// <summary>
+    /// Конвертирует отрицательное число в красный, положительное в зеленый
+    /// </summary>
     public class ValueToColor : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)

@@ -1,5 +1,8 @@
 ﻿namespace Stocks.Models
 {
+    /// <summary>
+    /// Хранит данные с интерфакса
+    /// </summary>
     public struct InterfaxData
     {
         public string Link { get; private set; }

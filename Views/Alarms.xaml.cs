@@ -15,7 +15,7 @@ namespace Stocks.Views
         void addAlarm_Click(object sender, RoutedEventArgs e)
         {
             var vm = (AlarmsVM)DataContext;
-            vm.onAddNewAlarm();
+            vm.AddNewAlarm(priceTB.Text, HigherRB.IsChecked.Value);
         }
 
         private void removeAlarm_Click(object sender, RoutedEventArgs e)

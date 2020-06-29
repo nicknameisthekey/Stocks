@@ -1,21 +1,20 @@
 ﻿using System;
 using System.Globalization;
-using System.Windows;
 using System.Windows.Data;
 
-namespace Stocks
+namespace Stocks.Conventers
 {
-    class BoolToVisibility : IValueConverter
+    public class BoolToalarmConditionString : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             if (value is bool b)
             {
                 if (b)
-                    return Visibility.Visible;
-                else return Visibility.Collapsed;
+                    return "Цена >= ";
+                else return "Цена < ";
             }
-            return Visibility.Visible;
+            return "";
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

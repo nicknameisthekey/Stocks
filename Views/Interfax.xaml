@@ -8,20 +8,23 @@
              mc:Ignorable="d">
     <Control.Resources>
         <DataTemplate DataType="{x:Type models:InterfaxData}">
-            <TextBlock>
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="{Binding Date}" Margin="0,0,3,0"></TextBlock>
+                <TextBlock>
             <Hyperlink NavigateUri="{Binding Link}" 
                        RequestNavigate="Hyperlink_RequestNavigate" >
                <TextBlock Text="{Binding Text}" TextWrapping="Wrap"/>
             </Hyperlink>
             </TextBlock>
+            </StackPanel>
         </DataTemplate>
     </Control.Resources>
 
     <StackPanel>
-        <TextBox Width="200" Height="30" FontSize="18" HorizontalAlignment="Left" Margin="3"
+        <StackPanel Orientation="Horizontal">
+            <TextBox Width="300" Height="30" FontSize="18" HorizontalAlignment="Left" Margin="0,3,0,3"
             Text="{Binding SearchString, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></TextBox>
-        <ListView ItemsSource="{Binding FactsList}"
-                  MinHeight="300" Width="1000" MaxHeight="700">
-        </ListView>
+        </StackPanel>
+        <ListView ItemsSource="{Binding FactsList}" Width="850" Height="700"/>
     </StackPanel>
 </UserControl>

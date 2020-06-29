@@ -6,19 +6,21 @@
         xmlns:local="clr-namespace:Stocks"
         xmlns:models="clr-namespace:Stocks.Models"
         mc:Ignorable="d"
-        Title="Поиск" Height="400" Width="360">
+        Title="Поиск" Height="490" Width="360">
     <Window.Resources>
         <DataTemplate DataType="{x:Type models:TickerNamePair}">
             <Grid>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition></ColumnDefinition>
-                    <ColumnDefinition></ColumnDefinition>
+                    <ColumnDefinition Width="60"></ColumnDefinition>
+                    <ColumnDefinition Width="210"></ColumnDefinition>
                     <ColumnDefinition Width="AUTO"></ColumnDefinition>
                 </Grid.ColumnDefinitions>
                 <TextBlock Grid.Column="0" Text="{Binding Ticker}"></TextBlock>
                 <TextBlock Grid.Column="1" Text="{Binding Name}" Margin="5,0,0,0"></TextBlock>
                 <Button Grid.Column="2" HorizontalAlignment="Right"
-                    Click="addTicker_click">+</Button>
+                    Click="addTicker_click" Background="Transparent" BorderThickness="0">
+                    <Image Source="../Icons/plus.png" Width="20" Height="20"></Image>
+                </Button>
             </Grid>
         </DataTemplate>
     </Window.Resources>
@@ -26,8 +28,13 @@
         <TextBox HorizontalAlignment="Left" Margin="3" 
                  MinWidth="200" Height="30" FontSize="18"
                  Text="{Binding SearchText, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
-        <ListView MinWidth="200" MaxWidth="350" Margin="5" 
+        <ListView Height="400" Margin="5"
                   ItemsSource="{Binding NotAddedTickers}">
+            <ListView.ItemContainerStyle>
+                <Style TargetType="{x:Type ListViewItem}">
+                    <Setter Property="Focusable" Value="False"/>
+                </Style>
+            </ListView.ItemContainerStyle>
         </ListView>
     </StackPanel>
 </Window>

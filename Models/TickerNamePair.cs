@@ -1,5 +1,8 @@
 ﻿namespace Stocks.Models
 {
+    /// <summary>
+    /// Пара тикер-имя эмитента
+    /// </summary>
     public class TickerNamePair
     {
         public string Ticker { get; private set; }

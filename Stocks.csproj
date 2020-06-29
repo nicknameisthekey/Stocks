@@ -64,6 +64,7 @@
       <HintPath>packages\System.Buffers.4.5.1\lib\net461\System.Buffers.dll</HintPath>
     </Reference>
     <Reference Include="System.Data" />
+    <Reference Include="System.IO.Compression.FileSystem" />
     <Reference Include="System.Memory, Version=4.0.1.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>packages\System.Memory.4.5.4\lib\net461\System.Memory.dll</HintPath>
     </Reference>
@@ -95,12 +96,12 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Conventers\BoolToVisibility.cs" />
+    <Compile Include="Conventers\BoolToalarmConditionString.cs" />
     <Compile Include="Conventers\ValueToColor.cs" />
     <Compile Include="Core\AlarmsChecker.cs" />
     <Compile Include="Models\PriceAlarm.cs" />
-    <Compile Include="Core\DataLoader.cs" />
-    <Compile Include="Core\PriceUpdater.cs" />
+    <Compile Include="Core\DataDownloader.cs" />
+    <Compile Include="Core\MOEXData.cs" />
     <Compile Include="Models\InterfaxData.cs" />
     <Compile Include="Models\TickerNamePair.cs" />
     <Compile Include="Utils\UserSettings.cs" />
@@ -109,9 +110,6 @@
     <Compile Include="ViewModels\InterfaxVM.cs" />
     <Compile Include="ViewModels\ReportsVM.cs" />
     <Compile Include="ViewModels\SearchTickerVM.cs" />
-    <Compile Include="Views\AddAlarm.xaml.cs">
-      <DependentUpon>AddAlarm.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Views\Alarms.xaml.cs">
       <DependentUpon>Alarms.xaml</DependentUpon>
     </Compile>
@@ -127,10 +125,6 @@
     <Compile Include="Views\SearchTicker.xaml.cs">
       <DependentUpon>SearchTicker.xaml</DependentUpon>
     </Compile>
-    <Page Include="Views\AddAlarm.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="Views\Alarms.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -191,6 +185,10 @@
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
+    <Resource Include="Icons\plus.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Icons\x.png" />
     <Content Include="Settings.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

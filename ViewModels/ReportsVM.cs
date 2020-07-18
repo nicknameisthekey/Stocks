@@ -12,7 +12,6 @@ namespace Stocks.ViewModels
     {
         List<InterfaxData> reports;
         int selectedType = 4;
-        TickerPrices selectedTicker;
         public List<InterfaxData> Reports
         {
             get => reports;
@@ -26,31 +25,10 @@ namespace Stocks.ViewModels
                 [2] = "Годовая"
             };
 
-        public void onSelectedTypeChange(int type)
-        {
-            selectedType = type;
-            updateList();
-        }
-        public ReportsVM()
-        {
-            MainVM.SelectedItemChanged += OnSelectedCompanychange;
-        }
-        public void OnSelectedCompanychange(TickerPrices ticker)
-        {
-            selectedTicker = ticker;
-            updateList();
-        }
-        void updateList()
-        {
-            if (selectedTicker.Ticker == null) return;
-            Dictionary<string, string> ids = SettingsManager.Settings.InterfaxIds;
-            if (ids.ContainsKey(selectedTicker.Ticker))
-            {
-                Reports = DataDownloader.LoadReportsList(ids[selectedTicker.Ticker], selectedType);
-            }
-            else
-                Reports = new List<InterfaxData>();
-        }
+        public ReportsVM(string id)
+            => Reports = DataDownloader.LoadReportsList(id, selectedType);
+        public void OnSelectedTypeChange(int type) 
+            => selectedType = type;
         public void OpenReport(string uri)
         {
             WebClient client = new WebClient();

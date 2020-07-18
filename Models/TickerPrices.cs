@@ -6,10 +6,6 @@
     public struct TickerPrices
     {
         /// <summary>
-        /// Тикер
-        /// </summary>
-        public string Ticker { get; private set; }
-        /// <summary>
         /// Цена открытия
         /// </summary>
         public float OpenPrice { get; private set; }
@@ -33,14 +29,17 @@
         /// Изменение цены с открытия в %
         /// </summary>
         public float PriceChangePrcnt => (PriceChange/OpenPrice) * 100;
-        public TickerPrices(string ticker, string openPrice, string lowPrice,
+        public TickerPrices(string openPrice, string lowPrice,
             string highPrice, string currentPrice)
         {
-            Ticker = ticker;
-            OpenPrice = float.Parse(openPrice);
-            LowPrice = float.Parse(lowPrice);
-            HighPrice = float.Parse(highPrice);
-            CurrentPrice = float.Parse(currentPrice);
+            float.TryParse(openPrice, out float openPriceParsed);
+            OpenPrice = openPriceParsed;
+            float.TryParse(lowPrice, out float lowPriceParsed);
+            LowPrice = lowPriceParsed;
+            float.TryParse(highPrice, out float highPriceParsed);
+            HighPrice = highPriceParsed;
+            float.TryParse(currentPrice, out float currentPriceParsed);
+            CurrentPrice = currentPriceParsed;
         }
     }
 }

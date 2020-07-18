@@ -6,96 +6,85 @@
         xmlns:local="clr-namespace:Stocks.Views"
         xmlns:root="clr-namespace:Stocks"
         xmlns:models="clr-namespace:Stocks.Models"
-        mc:Ignorable="d" WindowState="Maximized" d:DesignWidth="2040" d:DesignHeight="1170.925">
+        mc:Ignorable="d" WindowState="Normal" SizeToContent="WidthAndHeight" MaxHeight="800">
     <Window.Resources>
         <root:PercentConverter x:Key="PercentConveter" />
         <root:ValueToColor x:Key="valueToColor" />
 
-        <DataTemplate DataType="{x:Type models:TickerPrices}">
+        <Style x:Key="Font">
+            <Setter Property="TextElement.FontFamily" Value="Calibri" />
+        </Style>
+
+        <DataTemplate DataType="{x:Type models:CompanyData}">
             <Grid>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="35"/>
-                    <ColumnDefinition/>
-                    <ColumnDefinition/>
-                    <ColumnDefinition/>
+                    <ColumnDefinition Width="100"/>
+                    <ColumnDefinition Width="70"/>
                 </Grid.ColumnDefinitions>
-                <TextBlock Grid.Column="0" Text="{Binding Path=Ticker}" Margin="3"></TextBlock>
-                <TextBlock Grid.Column="1" Text="{Binding Path=CurrentPrice}" Margin="3"></TextBlock>
-                <TextBlock Grid.Column="2" Text="{Binding Path=PriceChangePrcnt, Converter={StaticResource PercentConveter}}"  
-                               Foreground="{Binding PriceChange, Converter={StaticResource valueToColor}}"
-                               Margin="3">
-                </TextBlock>
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+
+                <TextBlock Grid.Column="0" Grid.Row="0" Text="{Binding Path=Ticker}"
+                           FontSize="25" Style="{DynamicResource Font}"/>
+                <TextBlock Grid.Column="0" Grid.Row="1" Text="{Binding Path=FullName}" FontSize="15"
+                        Canvas.Right="0" Style="{DynamicResource Font}"/>
+
+                <TextBlock Grid.Column="1" Grid.Row="0" HorizontalAlignment="Right"
+                           Text="{Binding Path=Prices.CurrentPrice}"
+                            Style="{DynamicResource Font}" FontSize="25"/>
+
+                <Rectangle Grid.Column="1" Grid.Row="1" HorizontalAlignment="Right"
+                           Fill="{Binding Prices.PriceChange, Converter={StaticResource valueToColor}}"
+                           Width="65" Height="20" RadiusX="2" RadiusY="2">
+                </Rectangle>
+                <TextBlock Grid.Column="1" Grid.Row="1" HorizontalAlignment="Right"
+                           Text="{Binding Path=Prices.PriceChangePrcnt, Converter={StaticResource PercentConveter}}"  
+                           Foreground="White" Margin="0,0,2,0"
+                           FontSize="15" FontWeight="Heavy" Style="{DynamicResource Font}"/>
             </Grid>
         </DataTemplate>
 
     </Window.Resources>
-
-    <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="170"></ColumnDefinition>
-            <ColumnDefinition></ColumnDefinition>
-        </Grid.ColumnDefinitions>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="AUTO"></RowDefinition>
-            <RowDefinition></RowDefinition>
-            <RowDefinition></RowDefinition>
-            <RowDefinition></RowDefinition>
-        </Grid.RowDefinitions>
-
-        <!--ПОИСК И ДОБАВЛЕНИЕ ТИКЕРА-->
-        <StackPanel Grid.Column="0" Grid.Row="0"
-                    Margin="3"
-                    Orientation="Horizontal">
-            <TextBox Width="124"
-            Height="30" FontSize="18"
+    <ScrollViewer>
+        <StackPanel>
+            <!--ПОИСК И ДОБАВЛЕНИЕ ТИКЕРА-->
+            <StackPanel  Orientation="Horizontal" Margin="3">
+                
+                <TextBox Width="138" Height="26" FontSize="18" Style="{DynamicResource Font}" FontWeight="Regular"
             Name="searchTB" Text="{Binding SearchText, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"></TextBox>
-            <Button Click="addNewTicker_Click" Margin="10,0,0,0" 
-                    HorizontalAlignment="Center" VerticalAlignment="Center"
-                    Width="30" Height="30"
+
+                <Button Click="addNewTicker_Click" Margin="10,0,0,0" 
+                    Width="25" Height="25"
                     Background="White" BorderThickness="0">
-                <Image Source="../Icons/plus.png"></Image>
-            </Button>
-        </StackPanel>
-
-        <!--ЛИСТ ТИКЕРОВ-->
-        <ListView  Grid.Column="0" Grid.Row="1"
-                   Name="Watchlist" Margin="3,3,3,10"
-                   ItemsSource="{Binding PricesToShow}"
-                   SelectedItem="{Binding SelectedItem, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Grid.RowSpan="3">
-            <ListView.ContextMenu>
-                <ContextMenu>
-                    <MenuItem Header="Удалить" Click="deleteTicker_click"></MenuItem>
-                    <MenuItem Header="Изменить ID интерфакса" Click="changeInterfaxId_Click"></MenuItem>
-                </ContextMenu>
-            </ListView.ContextMenu>
-        </ListView>
-
-        <!--ОСНОВНАЯ ЧАСТЬ-->
-        <ScrollViewer Grid.Column="1" Grid.Row="0" Grid.RowSpan="4" Margin="0,3,0,0">
-            <StackPanel>
-                <Expander Header="График">
-                </Expander>
-
-                <Expander Header="Существенные факты и отчёты">
-                    <StackPanel Orientation="Horizontal">
-
-                        <local:Interfax
-                         HorizontalAlignment="Left" Margin="3"
-                         x:Name="InterfaxControl" Grid.Column="0" Grid.Row="0"/>
-                        <local:Reports  Grid.Column="1" Grid.Row="0"
-                x:Name="ReportsControl" HorizontalAlignment="Left" Margin="3,3,0,3">
-                        </local:Reports>
-                    </StackPanel>
-                </Expander>
-
-                <Expander Header="Уведомления">
-                    <local:Alarms Grid.Column="0" Grid.Row="1"
-                         HorizontalAlignment="Left" Margin="3"
-                         x:Name="AlarmControl">
-                    </local:Alarms>
-                </Expander>
+                    <Canvas>
+                        <!--<Image Source="../Icons/plus.png"></Image>-->
+                        <Rectangle Canvas.Left="-13" Canvas.Top="-13" Width="26" Height="26" 
+                                  RadiusX="3" RadiusY="3" Stroke="Black">
+                        </Rectangle>
+                        <Line Stroke="Black" StrokeThickness="2" X1="0" X2="0" Y1="-7" Y2="7" 
+                              Canvas.Left="1" Canvas.Top="1" Height="7"></Line>
+                        <Line Stroke="Black" StrokeThickness="2" X1="-7" X2="7" Y1="0" Y2="0" 
+                              Canvas.Left="1" Canvas.Top="1"></Line>
+                    </Canvas>
+                </Button>
             </StackPanel>
-        </ScrollViewer>
 
-    </Grid>
+            <!--ЛИСТ ТИКЕРОВ-->
+            <ListView  Grid.Column="0" Grid.Row="1"
+                   Name="Watchlist" BorderBrush="Transparent"
+                   ItemsSource="{Binding WatchList}" Grid.RowSpan="3" Grid.ColumnSpan="2">
+                <ListView.ContextMenu>
+                    <ContextMenu>
+                        <MenuItem Header="Удалить" Click="deleteTicker_click"></MenuItem>
+                        <MenuItem Header="Отчёты" Click="showReports_Click"></MenuItem>
+                        <MenuItem Header="Сущ. факты" Click="showFacts_Click"></MenuItem>
+                        <MenuItem Header="Уведомления" Click="showAlarms_Click"></MenuItem>
+                        <MenuItem Header="Изменить ID интерфакса" Click="changeInterfaxId_Click"></MenuItem>
+                    </ContextMenu>
+                </ListView.ContextMenu>
+            </ListView>
+        </StackPanel>
+    </ScrollViewer>
 </Window>

@@ -99,37 +99,45 @@
     <Compile Include="Conventers\BoolToalarmConditionString.cs" />
     <Compile Include="Conventers\ValueToColor.cs" />
     <Compile Include="Core\AlarmsChecker.cs" />
+    <Compile Include="Models\CompanyData.cs" />
     <Compile Include="Models\PriceAlarm.cs" />
-    <Compile Include="Core\DataDownloader.cs" />
+    <Compile Include="Core\InterfaxDownloader.cs" />
     <Compile Include="Core\MOEXData.cs" />
     <Compile Include="Models\InterfaxData.cs" />
     <Compile Include="Models\TickerNamePair.cs" />
     <Compile Include="Utils\UserSettings.cs" />
     <Compile Include="Utils\SettingsManager.cs" />
     <Compile Include="ViewModels\AlarmsVM.cs" />
-    <Compile Include="ViewModels\InterfaxVM.cs" />
+    <Compile Include="ViewModels\FactsVM.cs" />
     <Compile Include="ViewModels\ReportsVM.cs" />
     <Compile Include="ViewModels\SearchTickerVM.cs" />
-    <Compile Include="Views\Alarms.xaml.cs">
-      <DependentUpon>Alarms.xaml</DependentUpon>
+    <Compile Include="Views\AlarmsWindow.xaml.cs">
+      <DependentUpon>AlarmsWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\ChangeInterfaxId.xaml.cs">
       <DependentUpon>ChangeInterfaxId.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\FactsWindow.xaml.cs">
+      <DependentUpon>FactsWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Interfax.xaml.cs">
       <DependentUpon>Interfax.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Reports.xaml.cs">
-      <DependentUpon>Reports.xaml</DependentUpon>
+    <Compile Include="Views\ReportsWindow.xaml.cs">
+      <DependentUpon>ReportsWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\SearchTicker.xaml.cs">
       <DependentUpon>SearchTicker.xaml</DependentUpon>
     </Compile>
-    <Page Include="Views\Alarms.xaml">
+    <Page Include="Views\AlarmsWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\ChangeInterfaxId.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\FactsWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -152,7 +160,7 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="Views\Reports.xaml">
+    <Page Include="Views\ReportsWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

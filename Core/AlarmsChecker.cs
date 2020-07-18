@@ -25,17 +25,17 @@ namespace Stocks.Core
         /// </summary>
         static void onPricesUpdate()
         {
-            List<TickerPrices> watchlist = MOEXData.WatchlistPrices;
+            List<CompanyData> watchlist = MOEXData.Watchlist;
             foreach (PriceAlarm alarm in SettingsManager.Settings.PriceAlarms.ToArray())
             {
-                foreach (TickerPrices priceData in watchlist)
+                foreach (CompanyData companyData in watchlist)
                 {
-                    if (priceData.Ticker != alarm.Ticker) continue;
+                    if (companyData.Ticker != alarm.Ticker) continue;
 
                     if (alarm.AlarmIfTargetHigher
-                                       && priceData.CurrentPrice >= alarm.TargetPrice
+                                       && companyData.Prices.CurrentPrice >= alarm.TargetPrice
                         || !alarm.AlarmIfTargetHigher
-                                       && priceData.CurrentPrice < alarm.TargetPrice)
+                                       && companyData.Prices.CurrentPrice < alarm.TargetPrice)
                     {
                         FirePriceAlarm?.Invoke(alarm);
                         SettingsManager.RemovePriceAlarm(alarm);

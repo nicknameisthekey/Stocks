@@ -13,10 +13,10 @@ namespace Stocks
             if (value is float f)
             {
                 if (f >= 0)
-                    result += "(+";
+                    result += "+";
                 else
-                    result += "(";
-                result += $"{f.ToString("0.0#")}%)";
+                    result += "";
+                result += $"{f.ToString("0.0#")}%";
                 return result;
             }
             if (value is int i)

@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace Stocks.ViewModels
 {
-    public class InterfaxVM : BaseVM
+    public class FactsVM : BaseVM
     {
         List<InterfaxData> factsList;
         string searchString = "";
@@ -19,27 +19,15 @@ namespace Stocks.ViewModels
             get => searchString;
             set { searchString = value; onPropertyChange(); updateList(); }
         }
-        public InterfaxVM()
+        public FactsVM(string id)
         {
-            MainVM.SelectedItemChanged += OnSelectedCompanychange;
-        }
-        public void OnSelectedCompanychange(TickerPrices ticker)
-        {
-            var ids = SettingsManager.Settings.InterfaxIds;
-            if (ids.ContainsKey(ticker.Ticker))
-            {
-                selectedTickerData = DataDownloader.LoadCompanyEvents(ids[ticker.Ticker], 2020);
-            }
-            else
-                selectedTickerData = new List<InterfaxData>();
+            selectedTickerData = DataDownloader.LoadCompanyEvents(id, 2020);
             updateList();
-
         }
         void updateList()
         {
             FactsList = selectedTickerData.Where
                 (d => d.Text.ToLower().Contains(searchString.ToLower())).ToList();
         }
-
     }
 }

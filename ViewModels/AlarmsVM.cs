@@ -6,32 +6,26 @@ namespace Stocks.ViewModels
 {
     public class AlarmsVM : BaseVM
     {
+        readonly string ticker;
         public List<PriceAlarm> PriceAlarms
         {
             get => priceAlarms;
             private set { priceAlarms = value; onPropertyChange(); }
         }
-        TickerPrices selectedTicker;
         List<PriceAlarm> priceAlarms;
-
-        public AlarmsVM()
+        public AlarmsVM(string ticker)
         {
-            MainVM.SelectedItemChanged += OnSelectedCompanychange;
+            this.ticker = ticker;
             SettingsManager.SettingsChanged += updateAlarmList;
         }
         void updateAlarmList()
         {
             PriceAlarms = SettingsManager.Settings.PriceAlarms
-                .Where(a => a.Ticker == selectedTicker.Ticker).ToList();
-        }
-        private void OnSelectedCompanychange(TickerPrices ticker)
-        {
-            selectedTicker = ticker;
-            updateAlarmList();
+                .Where(a => a.Ticker == ticker).ToList();
         }
         public void AddNewAlarm(string price, bool higher)
         {
-            PriceAlarm alarm = new PriceAlarm(selectedTicker.Ticker, float.Parse(price), higher);
+            PriceAlarm alarm = new PriceAlarm(ticker, float.Parse(price), higher);
             SettingsManager.AddPriceAlarm(alarm);
         }
         public void onRemoveAlarm(PriceAlarm alarm)

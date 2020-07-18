@@ -37,7 +37,7 @@ namespace Stocks.ViewModels
         private void updateList()
         {
             IEnumerable<string> tickersAdded
-                            = MOEXData.WatchlistPrices.Select(c => c.Ticker);
+                            = MOEXData.Watchlist.Select(c => c.Ticker);
             NotAddedTickers = MOEXData.ListedTickers
             .Where(t => !tickersAdded.Contains(t.Ticker)
             && t.Ticker.Contains(SearchText.ToUpper())).ToList();

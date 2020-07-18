@@ -1,26 +1,20 @@
 ﻿using Stocks.Models;
 using Stocks.ViewModels;
-using System;
 using System.Collections;
-using System.Collections.Generic;
-using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
-using System.Windows.Navigation;
 
 namespace Stocks.Views
 {
-    public partial class Reports : UserControl
+    public partial class ReportsWindow : Window
     {
-        public Reports()
+        public ReportsWindow()
         {
             InitializeComponent();
-
-            DataContextChanged += (o, e) => typeCB.SelectedIndex = 0;
         }
 
-        private void Hyperlink_RequestNavigate(object sender, RequestNavigateEventArgs e)
+        private void Hyperlink_RequestNavigate(object sender, System.Windows.Navigation.RequestNavigateEventArgs e)
         {
             ((ReportsVM)DataContext).OpenReport(((InterfaxData)((Hyperlink)sender).DataContext).Link);
         }
@@ -29,7 +23,7 @@ namespace Stocks.Views
         {
             DictionaryEntry entry = (DictionaryEntry)e.AddedItems[0];
             var context = (ReportsVM)DataContext;
-            context.onSelectedTypeChange(int.Parse((string)entry.Key));
+            context.OnSelectedTypeChange(int.Parse((string)entry.Key));
         }
     }
 }

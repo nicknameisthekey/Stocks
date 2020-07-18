@@ -1,62 +1,85 @@
 ﻿using Stocks.Core;
 using Stocks.Models;
-using System;
+using Stocks.Views;
 using System.Collections.Generic;
 using System.Linq;
+using System.Windows;
 
 namespace Stocks.ViewModels
 {
     public class MainVM : BaseVM
     {
-        public static Action<TickerPrices> SelectedItemChanged;
-        List<TickerPrices> watchListPrices;
+        List<CompanyData> watchList;
         string searchText;
-        private TickerPrices selectedItem;
-
         public string SearchText
         {
             get => searchText;
             set
             {
                 searchText = value;
-                updateList();
+                updateView();
                 onPropertyChange(); //убрать вызов при изменении с формы
             }
         }
-        public TickerPrices SelectedItem
+        public List<CompanyData> WatchList
         {
-            get => selectedItem;
-            set
-            {
-                selectedItem = value;
-                SelectedItemChanged?.Invoke(value);
-                onPropertyChange();
-            }
-        }
-        public List<TickerPrices> PricesToShow
-        {
-            get => watchListPrices;
-            set { watchListPrices = value; onPropertyChange(); }
+            get => watchList;
+            set { watchList = value; onPropertyChange(); }
         }
         public MainVM()
         {
-            PricesToShow = MOEXData.WatchlistPrices;
-            MOEXData.WatchListPricesUpdated += updateList;
+            WatchList = MOEXData.Watchlist;
+            MOEXData.WatchListPricesUpdated += updateView;
         }
-        public void updateList()
+        public void updateView()
         {
-            if (string.IsNullOrEmpty(SearchText)) PricesToShow = MOEXData.WatchlistPrices;
+            if (string.IsNullOrEmpty(SearchText))
+            {
+                WatchList = MOEXData.Watchlist;
+            }
             else
             {
-                PricesToShow = MOEXData.WatchlistPrices
+                WatchList = MOEXData.Watchlist
                     .Where(c => c.Ticker.Contains(SearchText.ToUpper())).ToList();
             }
-            if (SelectedItem.Ticker == null && PricesToShow.Any())
-                SelectedItem = PricesToShow[0];
         }
         public void RemoveTicker(string ticker)
         {
             SettingsManager.RemoveTicker(ticker);
+        }
+        public void ShowReportsWindow(CompanyData ticker)
+        {
+            if (SettingsManager.Settings.InterfaxIds.ContainsKey(ticker.Ticker))
+            {
+                ReportsWindow window = new ReportsWindow();
+                window.DataContext = new ReportsVM
+                    (SettingsManager.Settings.InterfaxIds[ticker.Ticker]);
+                window.Show();
+            }
+            else
+            {
+                MessageBox.Show("Для этой компании не задан id на сайте интерфакс");
+            }
+        }
+        public void ShowAlarmsWindow(CompanyData selected)
+        {
+            AlarmsWindow window = new AlarmsWindow();
+            window.DataContext = new AlarmsVM(selected.Ticker);
+            window.Show();
+        }
+        public void ShowFactsWindow(CompanyData ticker)
+        {
+            if (SettingsManager.Settings.InterfaxIds.ContainsKey(ticker.Ticker))
+            {
+                FactsWindow window = new FactsWindow();
+                window.DataContext = new FactsVM
+                    (SettingsManager.Settings.InterfaxIds[ticker.Ticker]);
+                window.Show();
+            }
+            else
+            {
+                MessageBox.Show("Для этой компании не задан id на сайте интерфакс");
+            }
         }
     }
 }
